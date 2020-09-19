@@ -1,5 +1,7 @@
 package com.thoughtworks.rslist.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.rslist.dto.RsEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +77,14 @@ class RsControllerTest {
         mockMvc.perform(get("/rs/list"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)));
+
+        //用序列化的方式来写requestBody
+        RsEvent rsEvent =new RsEvent("猪肉涨价了","经济");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(rsEvent);
+
         mockMvc.perform((post("/rs/event")
-                .content("{\"eventName\": \"猪肉涨价了\", \"keyword\": \"经济\"}").contentType(MediaType.APPLICATION_JSON)))
+                .content(json).contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/rs/list"))
                 .andExpect(status().isOk())
