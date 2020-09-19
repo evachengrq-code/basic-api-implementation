@@ -118,6 +118,7 @@ public class UserControllerTest {
                 .content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+
     @Test
     void phone_should_not_be_empty() throws Exception {
         User user = new User("eva", "female", 20, "eva@twc.com","");
@@ -129,4 +130,14 @@ public class UserControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void phone_should_start_with_1_and_be_11_digits() throws Exception {
+        User user = new User("eva", "female", null, "eva@twc.com","1234567890123");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(user);
+
+        mockMvc.perform(post("/user/register")
+                .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
