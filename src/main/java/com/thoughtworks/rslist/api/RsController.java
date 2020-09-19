@@ -28,7 +28,7 @@ public class RsController {
     return rsList.subList(start - 1, end);
   }
 
-  @GetMapping("rs/{index}")
+  @GetMapping("/rs/{index}")
   //@PathVariable 表明了这个index是要加到path里的
   public RsEvent getRsEvent(@PathVariable int index) {
     return rsList.get(index - 1);
@@ -38,5 +38,10 @@ public class RsController {
   //@RequestBody 表明了要来这里拿这个body
   public void addRsEvent(@RequestBody RsEvent rsEvent) {
     rsList.add(rsEvent);
+  }
+
+  @PutMapping("/rs/{index}")
+  public void updateRsEvent(@PathVariable int index, @RequestBody RsEvent rsEvent) {
+    rsList.set(index - 1, rsEvent);
   }
 }
