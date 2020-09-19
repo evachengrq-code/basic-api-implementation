@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @AllArgsConstructor
@@ -26,8 +24,13 @@ public class User {
     @NotEmpty
     private String gender;
     @Min(18)
+    @Max(100)
+    @NotNull
     private Integer age;
+    @Email
     private String email;
+    @NotEmpty
+    @Pattern(regexp = "^1")
     private String phone;
     private Integer vote = 10;
 }
