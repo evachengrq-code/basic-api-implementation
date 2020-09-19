@@ -21,7 +21,6 @@ public class UserControllerTest {
 
     @Test
     void should_register_user() throws Exception {
-
         User user = new User("eva", "female", 20, "eva@twc.com","12345678901");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(user);
