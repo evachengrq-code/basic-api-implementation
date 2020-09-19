@@ -42,7 +42,12 @@ public class RsController {
 
   @PutMapping("/rs/{index}")
   public void updateRsEvent(@PathVariable int index, @RequestBody RsEvent rsEvent) {
-    rsList.set(index - 1, rsEvent);
+    if (rsEvent.getEventName() != null) {
+      rsList.get(index - 1).setEventName(rsEvent.getEventName());
+    }
+    if (rsEvent.getKeyword() != null) {
+      rsList.get(index - 1).setKeyword(rsEvent.getKeyword());
+    }
   }
 
   @DeleteMapping("/rs/{index}")

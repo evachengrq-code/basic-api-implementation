@@ -1,5 +1,7 @@
 package com.thoughtworks.rslist.dto;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public class RsEvent {
     public RsEvent() {
     }

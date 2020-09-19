@@ -120,6 +120,48 @@ class RsControllerTest {
     }
 
     @Test
+    void should_update_when_event_name_is_not_provided() throws Exception {
+        mockMvc.perform(get("/rs/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventName", is("第一条事件")))
+                .andExpect(jsonPath("$.keyword", is("无分类")));
+
+        RsEvent rsEvent = new RsEvent(null, "经济");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(rsEvent);
+
+        mockMvc.perform((put("/rs/1")
+                .content(json).contentType(MediaType.APPLICATION_JSON)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/rs/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventName", is("第一条事件")))
+                .andExpect(jsonPath("$.keyword", is("经济")));
+    }
+
+    @Test
+    void should_update_when_keyword_is_not_provided() throws Exception {
+        mockMvc.perform(get("/rs/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventName", is("第一条事件")))
+                .andExpect(jsonPath("$.keyword", is("无分类")));
+
+        RsEvent rsEvent = new RsEvent("猪肉涨价了", null);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(rsEvent);
+
+        mockMvc.perform((put("/rs/1")
+                .content(json).contentType(MediaType.APPLICATION_JSON)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/rs/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.eventName", is("猪肉涨价了")))
+                .andExpect(jsonPath("$.keyword", is("无分类")));
+    }
+
+    @Test
     void should_delete_rs_event() throws Exception {
         mockMvc.perform(get("/rs/list"))
                 .andExpect(status().isOk())
