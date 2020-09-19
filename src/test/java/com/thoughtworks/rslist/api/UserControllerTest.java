@@ -42,4 +42,14 @@ public class UserControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void name_should_not_be_more_than_8_characters() throws Exception {
+        User user = new User("evaaaaaaa", "female", 20, "eva@twc.com","12345678901");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(user);
+
+        mockMvc.perform(post("/user/register")
+                .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
