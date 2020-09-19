@@ -9,8 +9,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -22,11 +24,9 @@ class RsControllerTest {
 
     @Test
     void should_get_rs_list() throws Exception {
-        //perform方法：发送一个请求
-        MvcResult mvcResult = mockMvc.perform(get("/rs/list")).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        int status = response.getStatus();
-        Assertions.assertEquals(200, status);
-        assertEquals("[第一条事件, 第二条事件, 第三条事件]", response.getContentAsString());
+        //perform:发送一个请求
+        mockMvc.perform(get("/rs/list"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[第一条事件, 第二条事件, 第三条事件]"));
     }
 }
